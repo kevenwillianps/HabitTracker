@@ -1,0 +1,46 @@
+  {
+    "company": 1,
+    "title": "HabitQuest",
+    "version": "25",
+    "release": "4.1",
+    "name": "Alvorada",
+    "url_application": "http://localhost/cdldf/",
+    "delay": 0,
+    "security": {
+      "session_time": "30",
+      "key" : "40bd001563085fc35165329ea1ff5c5ecbdbbeef"
+    },
+    "session" : {
+      "name" : "CDLF_DF_USER"
+    },
+    "mail": {
+      "host": "mail.souza.inf.br",
+      "username": "contato@souza.inf.br",
+      "password": "!@#Star147oi.",
+      "port": "465",
+        "email": "contato@souza.inf.br",
+      "description": "CDL DF | Gerenciamento Eletrônico de Intimações"
+    },
+    "log": {
+      "active": true
+    },
+    "environment": "development",
+    "database": {
+      "production": {
+        "host": "localhost",
+        "name": "habit",
+        "port": "3306",
+        "user": "root",
+        "password": "root",
+        "charset": "utf8"
+      },
+      "development": {
+        "host": "localhost",
+        "name": "habit",
+        "port": "3306",
+        "user": "root",
+        "password": "root",
+        "charset": "utf8"
+      }
+    }
+  }

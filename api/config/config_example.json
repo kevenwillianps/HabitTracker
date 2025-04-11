@@ -1,0 +1,69 @@
+  {
+    "company": 1,
+    "title": "CDLDF",
+    "version": "25",
+    "release": "3.1",
+    "name": "Alvorada",
+    "url_application": "http://localhost/",
+    "delay": 0,
+    "security": {
+      "session_time": "30",
+      "key" : ""
+    },
+    "session" : {
+      "name" : ""
+    },
+    "mail": {
+      "host": "",
+      "username": "",
+      "password": "",
+      "port": "",
+        "email": "",
+      "description": ""
+    },
+    "log": {
+      "active": true
+    },
+    "environment": "development",
+    "database": {
+      "production": {
+        "host": "",
+        "name": "",
+        "port": "",
+        "user": "",
+        "password": "",
+        "charset": ""
+      },
+      "development": {
+        "host": "",
+        "name": "",
+        "port": "",
+        "user": "",
+        "password": "",
+        "charset": ""
+      }
+    },
+    "credits": {
+      "name": "",
+      "site": "",
+      "logo": ""
+    },
+    "files": {
+      "users": [
+        {
+          "name": "avatar",
+          "width": 200,
+          "height": 200,
+          "jpg": 80,
+          "png": 80
+        },
+        {
+          "name": "profile",
+          "width": 350,
+          "height": 350,
+          "jpg": 80,
+          "png": 80
+        }
+      ]
+    }
+  }
