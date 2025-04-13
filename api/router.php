@@ -47,7 +47,7 @@ $result = null;
 try {
 
     // RECEBER DADOS JSON
-    $input = (object) json_decode(file_get_contents('php://input'), true);
+    $INPUT_POST = (object) json_decode(file_get_contents('php://input'), true);
 
     // Obtenho as configurações da aplicação
     $MainGetConfigResult = $Main->GetConfig();
@@ -68,14 +68,13 @@ try {
     $LogsValidate->setDateRegister(date('Y/m/d H:i:s'));
 
     // Parâmetros de entrada
-    $RouterValidate->setPath(filter_var(@$input->path, FILTER_SANITIZE_SPECIAL_CHARS));
+    $RouterValidate->setPath(filter_var(@$INPUT_POST->path, FILTER_SANITIZE_SPECIAL_CHARS));
 
     // Verifico a existência de erros
     if (!empty($RouterValidate->getErrors())) {
 
         // Mensagem de erro
         throw new Exception($RouterValidate->getErrors());
-
     } else {
 
         // Verifico se o arquivo de ação existe
@@ -100,14 +99,11 @@ try {
                 'data' => $data
 
             ];
-
         } else {
 
             // Mensagem de erro
             throw new Exception('Erro :: Não há arquivo para ação informada.');
-
         }
-
     }
 
     sleep($MainGetConfigResult->delay);
@@ -117,11 +113,10 @@ try {
 
     // Encerra o procedimento
     exit;
-
 } catch (Exception $exception) {
 
     // Tratamento da mensagem de erro
-    $resultException = '<b>Arquivo:</b> ' . $exception->getFile() . '; <b>Linha:</b> ' . $exception->getLine() . '; <b>Código:</b> ' . $exception->getCode() . '; <b>Mensagem:</b> ' . $exception->getMessage();
+    $resultException = 'Arquivo: ' . $exception->getFile() . '; Linha: ' . $exception->getLine() . '; Código: ' . $exception->getCode() . '; Mensagem: ' . $exception->getMessage();
 
     // Verifico se devo realizar o log
     if (@(int) $UserSessionResult->user_id > 0) {
@@ -135,22 +130,13 @@ try {
 
         // Log de requisições
         $Logs->Save($LogsValidate->getLogId(), $LogsValidate->getLogTypeId(), $LogsValidate->getCompanyId(), $LogsValidate->getParentId(), $LogsValidate->getRegisterId(), $LogsValidate->getUserId(), $LogsValidate->getRequest(), $LogsValidate->getData(), $LogsValidate->getDateRegister());
-
     }
 
     // Preparo o formulário para o retorno
     $result = [
 
         'code' => 0,
-        'modal' => [
-            [
-                'title' => 'Atenção',
-                'data' => $resultException,
-                'size' => 'md',
-                'type' => null,
-                'procedure' => null,
-            ]
-        ],
+        'data' => $resultException
 
     ];
 
@@ -159,11 +145,10 @@ try {
 
     // Encerra o procedimento
     exit;
-
 } catch (Error $error) {
 
     // Tratamento da mensagem de erro
-    $resultError = '<b>Arquivo:</b> ' . $error->getFile() . '; <b>Linha:</b> ' . $error->getLine() . '; <b>Código:</b> ' . $error->getCode() . '; <b>Mensagem:</b> ' . $error->getMessage();
+    $resultError = 'Arquivo: ' . $error->getFile() . '; Linha: ' . $error->getLine() . '; Código: ' . $error->getCode() . '; Mensagem: ' . $error->getMessage();
 
     // Verifico se devo realizar o log
     if (@(int) $UserSessionResult->user_id > 0) {
@@ -177,22 +162,13 @@ try {
 
         // Log de requisições
         $Logs->Save($LogsValidate->getLogId(), $LogsValidate->getLogTypeId(), $LogsValidate->getCompanyId(), $LogsValidate->getParentId(), $LogsValidate->getRegisterId(), $LogsValidate->getUserId(), $LogsValidate->getRequest(), $LogsValidate->getData(), $LogsValidate->getDateRegister());
-
     }
 
     // Preparo o formulário para o retorno
     $result = [
 
         'code' => 0,
-        'modal' => [
-            [
-                'title' => 'Atenção',
-                'data' => $resultError,
-                'size' => 'md',
-                'type' => null,
-                'procedure' => null,
-            ]
-        ],
+        'data' => $resultError
 
     ];
 
@@ -201,5 +177,4 @@ try {
 
     // Encerra o procedimento
     exit;
-
 }

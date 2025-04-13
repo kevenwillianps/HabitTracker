@@ -4,15 +4,40 @@
 
     <h1>
 
-      Usuários/ 
-      
+      Usuários/
+
       <RouterLink to="/users/form" class="btn btn-primary">
         Formulário
       </RouterLink>
 
     </h1>
 
-    {{ data }}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Email</th>
+          <th scope="col">Operações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(user, index) in data" :key="user.id">
+          <th scope="row">
+            {{ user.user_id }}
+          </th>
+          <td>
+            {{ user.name }}
+          </td>
+          <td>
+            {{ user.email }}
+          </td>
+          <td>
+            @mdo
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
   </div>
 
@@ -33,7 +58,7 @@ onMounted(async () => {
   try {
 
     // Chamada à API para obter a lista de usuários
-    data.value = await apiRequest('action/users/users_list')
+    data.value = await apiRequest({ 'request': { 'path': 'action/users/users_list', 'method': 'post' }});
 
   } catch (err) {
 

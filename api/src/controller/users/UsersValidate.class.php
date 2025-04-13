@@ -21,6 +21,7 @@ class UsersValidate {
 	private string $email;
 	private string $password;
 	private string $token;
+	private array $errors = [];
 
 	/** 
 	 * Validação da informação "userId" 
@@ -130,6 +131,16 @@ class UsersValidate {
 	public function getToken(): string
 	{
 		return $this->token;
+	}
+
+	/** 
+	 * Recuperação de erros
+	 * 
+	 * @return array 
+	 */
+	public function getErrors(): array
+	{
+		return $this->errors;
 	}
 
 }

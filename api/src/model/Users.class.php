@@ -5,6 +5,7 @@ namespace src\model;
 
 // Importação de classes
 use src\controller\main\Main;
+use src\controller\users\UsersValidate;
 
 /**
  * Classe responsável para manipular os dados
@@ -18,18 +19,13 @@ use src\controller\main\Main;
  * @version   1.0.0
  * @link https://www.cdldf.souza.inf.br/
  */
-class Users
+class Users extends UsersValidate
 {
     // Declaro as variáveis da classe 
-    private $connection = null;
-    private $sql = null;
-    private $stmt = null;
+    private $MySql;
+    private string $sql;
+    private object $stmt;
     private null|string $key;
-
-    private ?int $userId = null;
-    private null|string $name = null;
-    private null|string $email = null;
-    private null|string $password = null;
 
     /**
 	 * Contrutor da classe
@@ -37,7 +33,7 @@ class Users
     public function __construct()
     {
         // Cria o objeto de conexão com o banco de dados
-        $this->connection = new Mysql();
+        $this->MySql = new Mysql();
 
         // Busco a chave de criptografia dos dados
         $this->key = Main::GetKey();
@@ -60,7 +56,7 @@ class Users
 					        and u.password = :password;';
 
         // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
 
         // Preencho os parâmetros do SQL
         $this->stmt->bindParam(':email', $this->email);
@@ -79,51 +75,33 @@ class Users
      * Utilizando o COALESCE(NULLIF(:password, \'\'), `password`) irá manter a mesma senha
      * caso não tenha sido informada nenhuma senha nova
      *
-     * @param integer $userId
-     * @param integer $companyId
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     * @param string $position
-     * @param string $team
+     * @param UsersValidate $UsersValidate
      *
      * @return boolean|string
      */
-    public function Save(int $userId, int $companyId, string $name, string $email, string $password, string $position, string $team) : bool|string
+    public function Save(UsersValidate $UsersValidate) : bool|string
     {
 
         // Consulta SQL
         $this->sql = 'INSERT INTO users (`user_id`, 
-                                         `company_id`, 
                                          `name`,
                                          `email`, 
-                                         `password`, 
-                                         `position`, 
-                                         `team`) values (:userId, 
-                                                        :companyId, 
-                                                        AES_ENCRYPT(:name, :key), 
-                                                        AES_ENCRYPT(:email, :key), 
-                                                        :password, 
-                                                        AES_ENCRYPT(:position, :key), 
-                                                        AES_ENCRYPT(:team, :key))
-                      ON DUPLICATE KEY UPDATE `company_id` = :companyId, 
-                                              `name` = AES_ENCRYPT(:name, :key), 
+                                         `password`) values (:userId, 
+                                                            AES_ENCRYPT(:name, :key),
+                                                            AES_ENCRYPT(:email, :key),
+                                                            :password)
+                      ON DUPLICATE KEY UPDATE `name` = AES_ENCRYPT(:name, :key), 
                                               `email` = AES_ENCRYPT(:email, :key), 
-                                              `password` = COALESCE(NULLIF(:password, \'\'), `password`), 
-                                              `position` = AES_ENCRYPT(:position, :key), 
-                                              `team` = AES_ENCRYPT(:team, :key);';
+                                              `password` = COALESCE(NULLIF(:password, \'\'), `password`);';
 
         // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
 
         // Preencho os parâmetros do SQL
-        $this->stmt->bindParam(':userId', $userId, is_int($userId) ? \PDO::PARAM_INT : \PDO::PARAM_STR);
-        $this->stmt->bindParam(':companyId', $companyId, is_int($companyId) ? \PDO::PARAM_INT : \PDO::PARAM_STR);
-        $this->stmt->bindParam(':name', $name, !empty($name) ? \PDO::PARAM_STR : \PDO::PARAM_NULL);
-        $this->stmt->bindParam(':email', $email, !empty($email) ? \PDO::PARAM_STR : \PDO::PARAM_NULL);
-        $this->stmt->bindParam(':password', $password, !empty($password) ? \PDO::PARAM_STR : \PDO::PARAM_NULL);
-        $this->stmt->bindParam(':position', $position, !empty($position) ? \PDO::PARAM_STR : \PDO::PARAM_NULL);
-        $this->stmt->bindParam(':team', $team, !empty($team) ? \PDO::PARAM_STR : \PDO::PARAM_NULL);
+        $this->stmt->bindParam(':userId', $UsersValidate->getUserId());
+        $this->stmt->bindParam(':name', $UsersValidate->getName());
+        $this->stmt->bindParam(':email', $UsersValidate->getEmail());
+        $this->stmt->bindParam(':password', $UsersValidate->getPassword());
         $this->stmt->bindParam(':key', $this->key);
 
         // Executa o SQL
@@ -146,7 +124,7 @@ class Users
         $this->sql = 'UPDATE users set token = :token where user_id = :userId;';
 
         // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
 
         // Preencho os parâmetros do SQL
         $this->stmt->bindParam(':userId', $userId);
@@ -171,7 +149,7 @@ class Users
         $this->sql = 'UPDATE users set token = null where user_id = :userId;';
 
         // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
 
         // Preencho os parâmetros do SQL
         $this->stmt->bindParam(':userId', $userId);
@@ -196,7 +174,7 @@ class Users
         $this->sql = 'UPDATE users set `password` = :password where user_id = :userId;';
 
         // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
 
         // Preencho os parâmetros do SQL
         $this->stmt->bindParam(':userId', $userId);
@@ -216,10 +194,17 @@ class Users
     {
 
         // Consulta SQL
-        $this->sql = 'SELECT * FROM users u';
+        $this->sql = 'SELECT
+                         u.user_id,
+                         CAST(AES_DECRYPT(u.name, :key) AS CHAR) AS name,
+                         CAST(AES_DECRYPT(u.email, :key) AS CHAR) AS email
+                      FROM users u';
 
          // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
+
+        // Preenchimento de parâmetros
+        $this->stmt->bindParam(':key', $this->key);
 
         // Executa o SQL
         $this->stmt->execute();
@@ -253,7 +238,7 @@ class Users
                      WHERE u.company_id = :companyId';
 
          // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
 
         // Preencho os parâmetros do SQL
         $this->stmt->bindParam(':companyId', $companyId);
@@ -293,7 +278,7 @@ class Users
                      WHERE u.user_id = :userId';
 
          // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
 
         // Preencho os parâmetros do SQL
         $this->stmt->bindParam(':userId', $userId);
@@ -333,7 +318,7 @@ class Users
                     LIMIT 1;';
  
          // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
  
         // Preencho os parâmetros do SQL
         $this->stmt->bindParam(':email', $email);
@@ -373,7 +358,7 @@ class Users
                      desc limit 1';
  
          // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
  
         // Preencho os parâmetros do SQL
         $this->stmt->bindParam(':token', $token);
@@ -400,7 +385,7 @@ class Users
         $this->sql = 'DELETE FROM users WHERE user_id = :userId';
 
          // Preparo o SQL para execução
-        $this->stmt = $this->connection->connect()->prepare($this->sql);
+        $this->stmt = $this->MySql->connect()->prepare($this->sql);
 
         // Preencho os parâmetros do SQL
         $this->stmt->bindParam(':userId', $userId);
@@ -416,7 +401,7 @@ class Users
     public function __destruct()
     {
 
-        $this->connection = null;
+        $this->MySql = null;
 
     }
 

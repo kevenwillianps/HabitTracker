@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import Menu from '@/layout/Menu.vue'; // quando for export default, usarm sem {}
+import Toast from '@/components/general/toast.vue';
 
 </script>
 
@@ -15,5 +16,7 @@ import Menu from '@/layout/Menu.vue'; // quando for export default, usarm sem {}
     <RouterView />
 
   </div>
+
+  <Toast />
 
 </template>
