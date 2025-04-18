@@ -3,7 +3,7 @@
 namespace src\model;
 
 // Importação de Classe
-use src\controller\TypesValidate;
+use src\controller\types\TypesValidate;
 
 /**
 * Classe responsável para manipular os dados da tabela de types

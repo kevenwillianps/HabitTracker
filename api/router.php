@@ -32,6 +32,7 @@ require_once('./autoload.php');
 // Importação de classes
 use src\controller\main\Main;
 use src\controller\routers\RouterValidate;
+use src\controller\routers\RouterHandling;
 use src\controller\routers\RouterAuth;
 use src\controller\logs\LogsValidate;
 use src\model\Logs;
@@ -46,7 +47,7 @@ $result = null;
 
 try {
 
-    // RECEBER DADOS JSON
+    // Recebe dados json
     $INPUT_POST = (object) json_decode(file_get_contents('php://input'), true);
 
     // Obtenho as configurações da aplicação
@@ -80,23 +81,11 @@ try {
         // Verifico se o arquivo de ação existe
         if (is_file($RouterValidate->getFullPath())) {
 
-            // Inicio a coleta de dados
-            ob_start();
-
-            // Inclusão do arquivo desejado
-            @include_once $RouterValidate->getFullPath();
-
-            // Prego a estrutura do arquivo
-            $data = ob_get_contents();
-
-            // Removo o arquivo incluido
-            ob_end_clean();
-
             // Result
             $result = [
 
                 'code' => 100,
-                'data' => $data
+                'data' => RouterHandling::process($RouterValidate)
 
             ];
         } else {
@@ -106,6 +95,7 @@ try {
         }
     }
 
+    // Define o delay de resposta
     sleep($MainGetConfigResult->delay);
 
     // Envio dos dados
@@ -115,66 +105,28 @@ try {
     exit;
 } catch (Exception $exception) {
 
-    // Tratamento da mensagem de erro
-    $resultException = 'Arquivo: ' . $exception->getFile() . '; Linha: ' . $exception->getLine() . '; Código: ' . $exception->getCode() . '; Mensagem: ' . $exception->getMessage();
+    // Pega os dados da exceção
+    $result[] = RouterHandling::formatException($exception);
 
-    // Verifico se devo realizar o log
-    if (@(int) $UserSessionResult->user_id > 0) {
+    // Define o delay de resposta
+    sleep($MainGetConfigResult->delay);
 
-        // Escrevo a mensagem de requisição
-        $_POST['exception'] = $resultException;
-
-        // Defino os novos dados de log
-        $LogsValidate->setLogTypeId(logTypeId: 2);
-        $LogsValidate->setData(json_encode($_POST, JSON_PRETTY_PRINT));
-
-        // Log de requisições
-        $Logs->Save($LogsValidate->getLogId(), $LogsValidate->getLogTypeId(), $LogsValidate->getCompanyId(), $LogsValidate->getParentId(), $LogsValidate->getRegisterId(), $LogsValidate->getUserId(), $LogsValidate->getRequest(), $LogsValidate->getData(), $LogsValidate->getDateRegister());
-    }
-
-    // Preparo o formulário para o retorno
-    $result = [
-
-        'code' => 0,
-        'data' => $resultException
-
-    ];
-
-    // Envio dos dados
+    // Retorna em formato json
     echo json_encode($result);
 
-    // Encerra o procedimento
+    // Encerra a aplicação
     exit;
 } catch (Error $error) {
 
-    // Tratamento da mensagem de erro
-    $resultError = 'Arquivo: ' . $error->getFile() . '; Linha: ' . $error->getLine() . '; Código: ' . $error->getCode() . '; Mensagem: ' . $error->getMessage();
+    // Pega os dados do erro
+    $result[] = RouterHandling::formatException($error);
 
-    // Verifico se devo realizar o log
-    if (@(int) $UserSessionResult->user_id > 0) {
+    // Define o delay de resposta
+    sleep($MainGetConfigResult->delay);
 
-        // Escrevo a mensagem de requisição
-        $_POST['error'] = $resultError;
-
-        // Defino os novos dados de log
-        $LogsValidate->setLogTypeId(logTypeId: 3);
-        $LogsValidate->setData(json_encode($_POST, JSON_PRETTY_PRINT));
-
-        // Log de requisições
-        $Logs->Save($LogsValidate->getLogId(), $LogsValidate->getLogTypeId(), $LogsValidate->getCompanyId(), $LogsValidate->getParentId(), $LogsValidate->getRegisterId(), $LogsValidate->getUserId(), $LogsValidate->getRequest(), $LogsValidate->getData(), $LogsValidate->getDateRegister());
-    }
-
-    // Preparo o formulário para o retorno
-    $result = [
-
-        'code' => 0,
-        'data' => $resultError
-
-    ];
-
-    // Envio dos dados
+    // Retorna em formato json
     echo json_encode($result);
 
-    // Encerra o procedimento
+    // Encerra a aplicação
     exit;
 }

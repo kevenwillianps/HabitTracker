@@ -3,10 +3,10 @@
 namespace src\model;
 
 // Importação de Classe
-use src\controller\GroupsValidate;
+use src\controller\groups\GroupsValidate;
 
 /**
-* Classe responsável para manipular os dados da tabela de groups
+* Classe responsável para manipular os dados da tabela de `groups`
 *
 * @category 
 * @package src\model
@@ -42,7 +42,7 @@ class Groups extends GroupsValidate {
 	{
 
 		// Consulta SQL
-		$this->sql = 'SELECT g.* FROM groups g';
+		$this->sql = 'SELECT g.* FROM `groups` g';
 
 		// Preparo o SQL para execução
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
@@ -66,7 +66,7 @@ class Groups extends GroupsValidate {
 	{
 
 		// Consulta SQL
-		$this->sql = 'SELECT * FROM groups g WHERE g.group_id = :groupId';
+		$this->sql = 'SELECT * FROM `groups` g WHERE g.group_id = :groupId';
 
 		// Preparo o SQL para execução
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
@@ -93,7 +93,7 @@ class Groups extends GroupsValidate {
 	{
 
 		// Consulta SQL
-		$this->sql = 'INSERT INTO groups(`group_id`, `name`)
+		$this->sql = 'INSERT INTO `groups`(`group_id`, `name`)
 						VALUES(:groupId, :name);';
 
 		// Preparo o SQL para execução
@@ -122,7 +122,7 @@ class Groups extends GroupsValidate {
 	{
 
 		// Consulta SQL
-		$this->sql = 'DELETE FROM groups g WHERE g.group_id = :groupId';
+		$this->sql = 'DELETE FROM `groups` g WHERE g.group_id = :groupId';
 
 		// Preparo o SQL para execução
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);

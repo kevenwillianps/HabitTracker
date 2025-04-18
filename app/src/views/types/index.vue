@@ -4,9 +4,9 @@
 
     <h1>
 
-      Usuários/
+      Tipos/
 
-      <RouterLink to="/users/form" class="btn btn-primary">
+      <RouterLink to="/types/form" class="btn btn-primary">
         Formulário
       </RouterLink>
 
@@ -22,15 +22,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(user, index) in data" :key="user.user_id">
+        <tr v-for="(type, index) in data" :key="type.type_id">
           <th scope="row">
-            {{ user.user_id }}
+            {{ type.type_id }}
           </th>
           <td>
-            {{ user.name }}
+            {{ type.name }}
           </td>
           <td>
-            {{ user.email }}
+            {{ type.description }}
           </td>
           <td>
             @mdo
@@ -46,26 +46,28 @@
 <script setup>
 
 // Importação de componentes e bibliotecas
-import { ref, onMounted } from 'vue'
-import { apiRequest } from '@/utils/api'
+import { ref, onMounted } from 'vue';
+import { apiRequest } from '@/utils/api';
 
 // Definição de variáveis reativas
-const data = ref([])
+const data = ref([]);
 
-// Função executada quando o componente é montado
+// Função executada quando o componente é motado
 onMounted(async () => {
 
   try {
 
-    // Chamada à API para obter a lista de usuários
-    data.value = await apiRequest({ 'request': { 'path': 'action/users/users_list', 'method': 'post' }});
+    // Guarda os dados da consulta
+    data.value = await apiRequest({ 'request': { 'path': 'action/types/types_listsss', 'method': 'post' } });
 
-  } catch (err) {
+  }
+  catch (error) {
 
-    // Em caso de erro escreve no console
-    console.error('Erro ao carregar usuários:', err)
+    // Exibe o erro no console
+    console.error('Erro ao buscar dados:', error);
 
   }
 
 })
+
 </script>

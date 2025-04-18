@@ -21,9 +21,54 @@ const router = createRouter({
     },
     {
       path: '/habits',
-      name: 'habitos',
+      name: 'habits',
       component: () => import('../views/habits/index.vue'),
     },
+    {
+      path: '/habits/form',
+      name: 'habits.form',
+      component: () => import('../views/habits/form.vue'),
+    },
+    {
+      path: '/situations',
+      name: 'situations',
+      component: () => import('../views/situations/index.vue'),
+    },
+    {
+      path: '/situations/form',
+      name: 'situation.form',
+      component: () => import('../views/situations/form.vue'),
+    },
+    {
+      path:'/categories',
+      name:'categories',
+      component: () => import('../views/categories/index.vue'),
+    },
+    {
+      path:'/categories/form',
+      name:'categories.form',
+      component: () => import('../views/categories/form.vue'),
+    },
+    {
+      path:'/groups',
+      name:'groups',
+      component: () => import('../views/groups/index.vue'),
+    },
+    {
+      path:'/groups/form',
+      name:'groups.form',
+      component: () => import('../views/groups/form.vue'),
+    },
+    {
+      path:'/types',
+      name:'types',
+      component: () => import('../views/types/index.vue'),
+    },
+    {
+      path:'/types/form',
+      name:'types.form',
+      component: () => import('../views/types/form.vue'),
+    }
 
   ],
 

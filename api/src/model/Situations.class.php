@@ -3,7 +3,7 @@
 namespace src\model;
 
 // Importação de Classe
-use src\controller\SituationsValidate;
+use src\controller\situations\SituationsValidate;
 
 /**
 * Classe responsável para manipular os dados da tabela de situations
@@ -94,7 +94,7 @@ class Situations extends SituationsValidate {
 
 		// Consulta SQL
 		$this->sql = 'INSERT INTO situations(`situation_id`, `name`, `description`)
-						VALUES(:situationId, :name, :description);';
+					  VALUES(:situationId, :name, :description);';
 
 		// Preparo o SQL para execução
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);

@@ -3,7 +3,7 @@
 namespace src\model;
 
 // Importação de Classe
-use src\controller\CategoriesValidate;
+use src\controller\categories\CategoriesValidate;
 
 /**
 * Classe responsável para manipular os dados da tabela de categories

@@ -3,7 +3,7 @@
 namespace src\model;
 
 // Importação de Classe
-use src\controller\HabitsValidate;
+use src\controller\habits\HabitsValidate;
 
 /**
 * Classe responsável para manipular os dados da tabela de habits
@@ -94,7 +94,7 @@ class Habits extends HabitsValidate {
 
 		// Consulta SQL
 		$this->sql = 'INSERT INTO habits(`habit_id`, `situation_id`, `group_id`, `category_id`, `type_id`, `user_id`, `name`, `description`, `url`, `starts_in`, `ends_in`)
-						VALUES(:habitId, :situationId, :groupId, :categoryId, :typeId, :userId, :name, :description, :url, :startsIn, :endsIn);';
+					  VALUES(:habitId, :situationId, :groupId, :categoryId, :typeId, :userId, :name, :description, :url, :startsIn, :endsIn);';
 
 		// Preparo o SQL para execução
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);

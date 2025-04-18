@@ -4,9 +4,9 @@
 
     <h1>
 
-      Hábitos/
+      Grupos/
 
-      <RouterLink to="/habits/form" class="btn btn-primary">
+      <RouterLink to="/groups/form" class="btn btn-primary">
         Formulário
       </RouterLink>
 
@@ -22,15 +22,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(habit, index) in data" :key="habit.habit_id">
+        <tr v-for="(group, index) in data" :key="group.group_id">
           <th scope="row">
-            {{ habit.habit_id }}
+            {{ group.group_id }}
           </th>
           <td>
-            {{ habit.name }}
-          </td>
-          <td>
-            {{ habit.description }}
+            {{ group.name }}
           </td>
           <td>
             @mdo
@@ -58,7 +55,7 @@ onMounted(async () => {
   try {
 
     // Guarda os dados da consulta
-    data.value = await apiRequest({ 'request': { 'path': 'action/habits/habits_list', 'method': 'post' } });
+    data.value = await apiRequest({ 'request': { 'path': 'action/groups/groups_list', 'method': 'post' } });
 
   }
   catch (error) {

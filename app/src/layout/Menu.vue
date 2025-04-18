@@ -28,6 +28,46 @@
 
                     <li class="nav-item">
 
+                        <RouterLink to="/situations" class="nav-link" active-class="nav-link active">
+
+                            Situações
+
+                        </RouterLink>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <RouterLink to="/categories" class="nav-link" active-class="nav-link active">
+
+                            Categorias
+
+                        </RouterLink>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <RouterLink to="/groups" class="nav-link" active-class="nav-link active">
+
+                            Grupos
+
+                        </RouterLink>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <RouterLink to="/types" class="nav-link" active-class="nav-link active">
+
+                            Tipos
+
+                        </RouterLink>
+
+                    </li>
+
+                    <li class="nav-item">
+
                         <RouterLink to="/habits" class="nav-link" active-class="nav-link active">
 
                             Hábitos
