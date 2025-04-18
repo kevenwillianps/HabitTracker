@@ -1,4 +1,4 @@
-# 📘 README - HabitQuest (Em Desenvolvimento)
+# 📘 README - Habit Tracker (Em Desenvolvimento)
 
 **HabitQuest** é um projeto em desenvolvimento que tem como objetivo transformar o registro de hábitos em uma experiência divertida e motivadora, por meio de mecânicas de gamificação inspiradas em RPGs.
 
