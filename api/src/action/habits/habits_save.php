@@ -12,11 +12,11 @@ $HabitsValidate = new HabitsValidate();
 $result = null;
 
 // Validação do campos de entrada
-$HabitsValidate->setHabitId(filter_var($INPUT_POST->habit_id, FILTER_SANITIZE_NUMBER_INT));
-$HabitsValidate->setSituationId(filter_var($INPUT_POST->situation_id, FILTER_SANITIZE_NUMBER_INT));
-$HabitsValidate->setGroupId(filter_var($INPUT_POST->group_id, FILTER_SANITIZE_NUMBER_INT));
-$HabitsValidate->setCategoryId(filter_var($INPUT_POST->category_id, FILTER_SANITIZE_NUMBER_INT));
-$HabitsValidate->setTypeId(filter_var($INPUT_POST->type_id, FILTER_SANITIZE_NUMBER_INT));
+$HabitsValidate->setHabitId((int) filter_var($INPUT_POST->habit_id, FILTER_SANITIZE_NUMBER_INT));
+$HabitsValidate->setSituationId((int) filter_var($INPUT_POST->situation_id, FILTER_SANITIZE_NUMBER_INT));
+$HabitsValidate->setGroupId((int) filter_var($INPUT_POST->group_id, FILTER_SANITIZE_NUMBER_INT));
+$HabitsValidate->setCategoryId((int) filter_var($INPUT_POST->category_id, FILTER_SANITIZE_NUMBER_INT));
+$HabitsValidate->setTypeId((int) filter_var($INPUT_POST->type_id, FILTER_SANITIZE_NUMBER_INT));
 $HabitsValidate->setUserId(1);
 $HabitsValidate->setName(filter_var($INPUT_POST->name, FILTER_SANITIZE_SPECIAL_CHARS));
 $HabitsValidate->setDescription(filter_var($INPUT_POST->description, FILTER_SANITIZE_SPECIAL_CHARS));

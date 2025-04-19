@@ -32,7 +32,7 @@ require_once('./autoload.php');
 // Importação de classes
 use src\controller\main\Main;
 use src\controller\routers\RouterValidate;
-use src\controller\routers\RouterHandling;
+use src\controller\routers\Router;
 use src\controller\routers\RouterAuth;
 use src\controller\logs\LogsValidate;
 use src\model\Logs;
@@ -48,11 +48,14 @@ $result = null;
 try {
 
     // Recebe dados json
-    $INPUT_POST = (object) json_decode(file_get_contents('php://input'), true);
+    $request = (object) json_decode(file_get_contents('php://input'), true);
+
+    // Obtem as informações de requisição
+    $request2 = Router::getInstance();
 
     // Obtenho as configurações da aplicação
     $MainGetConfigResult = $Main->GetConfig();
-
+ 
     // Obtenho os dados do usuário
     @$UserSessionResult = $_SESSION[$MainGetConfigResult->session->name];
 
@@ -69,7 +72,7 @@ try {
     $LogsValidate->setDateRegister(date('Y/m/d H:i:s'));
 
     // Parâmetros de entrada
-    $RouterValidate->setPath(filter_var(@$INPUT_POST->path, FILTER_SANITIZE_SPECIAL_CHARS));
+    $RouterValidate->setPath(filter_var(@$request->path, FILTER_SANITIZE_SPECIAL_CHARS));
 
     // Verifico a existência de erros
     if (!empty($RouterValidate->getErrors())) {
@@ -85,7 +88,7 @@ try {
             $result = [
 
                 'code' => 100,
-                'data' => RouterHandling::process($RouterValidate)
+                'data' => Router::process($RouterValidate, $request)
 
             ];
         } else {
@@ -106,7 +109,7 @@ try {
 } catch (Exception $exception) {
 
     // Pega os dados da exceção
-    $result[] = RouterHandling::formatException($exception);
+    $result[] = Router::formatException($exception);
 
     // Define o delay de resposta
     sleep($MainGetConfigResult->delay);
@@ -119,7 +122,7 @@ try {
 } catch (Error $error) {
 
     // Pega os dados do erro
-    $result[] = RouterHandling::formatException($error);
+    $result[] = Router::formatException($error);
 
     // Define o delay de resposta
     sleep($MainGetConfigResult->delay);

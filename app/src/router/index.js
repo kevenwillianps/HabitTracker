@@ -25,7 +25,7 @@ const router = createRouter({
       component: () => import('../views/habits/index.vue'),
     },
     {
-      path: '/habits/form',
+      path: '/habits/form/:id',
       name: 'habits.form',
       component: () => import('../views/habits/form.vue'),
     },

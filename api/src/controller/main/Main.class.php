@@ -51,65 +51,56 @@ class Main
      *
      * @return void
      */
-    public function antiInjection($string, string $long = '')
+    public static function antiInjection($string, string $long = '')
     {
-
-        // Parâmetros de entrada
-        $this->string = $string;
-        $this->long = $long;
-
-        // Verifico o tipo de entrada
-        if (is_array($this->string)) {
-
-            // Retorno o texto sem formatação
-            // $this->antiInjectionArray($this->string);
-
-        } elseif (strcmp($this->long, 'S') === 0) {
+        
+        if (strcmp($long, 'S') === 0) {
 
             // Retorno a string sem tratamento
-            return $this->string;
+            return $string;
+
         } else {
 
             // Remoção de espaçamentos
-            $this->string = trim($this->string);
+            $string = trim($string);
 
             // Remoção de tags PHP e HTML
-            $this->string = strip_tags($this->string);
+            $string = strip_tags($string);
 
             // Adição de barras invertidas
-            $this->string = addslashes($this->string);
+            $string = addslashes($string);
 
             // Evito ataque XSS
-            $this->string = htmlspecialchars($this->string);
+            $string = htmlspecialchars($string);
 
             // Elementos de SQL injection
             $elements = array(
-                ' drop ',
-                ' select ',
-                ' delete ',
-                ' update ',
-                ' insert ',
-                ' alert ',
-                ' destroy ',
-                ' * ',
-                ' database ',
-                ' drop ',
-                ' union ',
-                ' TABLE_NAME ',
-                ' 1=1 ',
-                ' or 1 ',
-                ' exec ',
-                ' INFORMATION_SCHEMA ',
-                ' like ',
-                ' COLUMNS ',
-                ' into ',
-                ' VALUES ',
-                ' from ',
-                ' undefined '
+                'drop',
+                'select',
+                'delete',
+                'update',
+                'insert',
+                'alert',
+                'destroy',
+                '*',
+                'database',
+                'drop',
+                'union',
+                'TABLE_NAME',
+                '1=1',
+                'or 1',
+                'exec',
+                'INFORMATION_SCHEMA',
+                'like',
+                'COLUMNS',
+                'into',
+                'VALUES',
+                'from',
+                'undefined'
             );
 
             // Transformos as palavras em array
-            $palavras = explode(' ', str_replace(',', '', $this->string));
+            $palavras = explode(' ', str_replace(',', '', $string));
 
             // Percorro todas as palavras localizadas
             foreach ($palavras as $keyPalavra => $palavra) {
@@ -121,13 +112,13 @@ class Main
                     if (strcmp(strtolower($palavra), strtolower($element)) === 0) {
 
                         // Realizo a troca da marcação pela palavra qualificada
-                        $this->string = str_replace($palavra, '', $this->string);
+                        $string = str_replace($palavra, '', $string);
                     }
                 }
             }
 
             // Retorno o texto tratado
-            return $this->string;
+            return $string;
         }
     }
 

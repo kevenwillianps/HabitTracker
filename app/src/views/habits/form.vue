@@ -89,20 +89,24 @@
 
 // Importação de compoentes e bibliotecas
 import { ref, onMounted, reactive } from 'vue';
+import { useRoute } from 'vue-router';
 import { apiRequest } from '@/utils/api'
+
+const route = useRoute();
 
 // Defino o objeto de dados do formulário
 const formData = reactive({
-    habit_id: 0,
-    situation_id: 0,
-    category_id: 0,
-    type_id: 0,
-    group_id: 0,
-    name: '',
-    description: '',
-    url: '',
-    starts_in: '',
-    ends_in: ''
+    category_id : 0,
+    description : '',
+    ends_in : '',
+    group_id : 0,
+    habit_id : 0,
+    name : '',
+    situation_id : 0,
+    starts_in : '',
+    type_id : 0,
+    url : '',
+    user_id : 0
 
 });
 
@@ -126,6 +130,17 @@ onMounted(async () => {
 
     // Busca os grupos
     groups.value = await apiRequest({'request': { 'path': 'action/groups/groups_list', 'method': 'post' }});
+
+    // Verifica se deve buscar o registro
+    if(route.params.id > 0){
+
+        // Busca o registro
+        const response = await apiRequest({'request': { 'path': 'action/habits/habits_get', 'method': 'post', 'data' : { 'habit_id': route.params.id } }});
+
+        // Guarda os dados do objeto no formulário sem perder a reatividade
+        Object.assign(formData, response.data)
+
+    }
 
 });
 

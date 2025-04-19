@@ -93,8 +93,38 @@ class Habits extends HabitsValidate {
 	{
 
 		// Consulta SQL
-		$this->sql = 'INSERT INTO habits(`habit_id`, `situation_id`, `group_id`, `category_id`, `type_id`, `user_id`, `name`, `description`, `url`, `starts_in`, `ends_in`)
-					  VALUES(:habitId, :situationId, :groupId, :categoryId, :typeId, :userId, :name, :description, :url, :startsIn, :endsIn);';
+		$this->sql = 'INSERT INTO habits(`habit_id`, 
+										 `situation_id`, 
+										 `group_id`, 
+										 `category_id`, 
+										 `type_id`, 
+										 `user_id`, 
+										 `name`, 
+										 `description`, 
+										 `url`, 
+										 `starts_in`, 
+										 `ends_in`)
+					  VALUES(:habitId, 
+					  		 :situationId, 
+							 :groupId, 
+							 :categoryId, 
+							 :typeId, 
+							 :userId, 
+							 :name, 
+							 :description, 
+							 :url, 
+							 :startsIn, 
+							 :endsIn)
+					  ON DUPLICATE KEY UPDATE `situation_id` = :situationId,
+											  `group_id` = :groupId,
+											  `category_id` = :categoryId,
+											  `type_id` = :typeId,
+											  `user_id` = :userId,
+											  `name` = :name,
+											  `description` = :description,
+											  `url` = :url,
+											  `starts_in` = :startsIn,
+											  `ends_in` = :endsIn;';
 
 		// Preparo o SQL para execução
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);

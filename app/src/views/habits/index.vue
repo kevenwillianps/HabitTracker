@@ -6,7 +6,7 @@
 
       Hábitos/
 
-      <RouterLink to="/habits/form" class="btn btn-primary">
+      <RouterLink to="/habits/form/0" class="btn btn-primary">
         Formulário
       </RouterLink>
 
@@ -33,7 +33,12 @@
             {{ habit.description }}
           </td>
           <td>
-            @mdo
+            <RouterLink :to="{ name : 'habits.form', params : { id: habit.habit_id }} " class="btn btn-danger me-3">
+              Editar
+            </RouterLink>
+            <button class="btn btn-danger" @click="deleteHabit(habit.habit_id)">
+              Remover
+            </button>
           </td>
         </tr>
       </tbody>
@@ -69,5 +74,25 @@ onMounted(async () => {
   }
 
 })
+
+async function deleteHabit(habit_id) {
+
+  await apiRequest({
+    'request': { 'path': 'action/habits/habits_delete', 'method': 'post', 'data': { 'habit_id': habit_id } }
+  })
+
+    .then((response) => {
+
+      console.log('Resposta:', response);
+
+    })
+
+    .catch((error) => {
+
+      console.error('Erro:', error);
+
+    });
+
+}
 
 </script>
