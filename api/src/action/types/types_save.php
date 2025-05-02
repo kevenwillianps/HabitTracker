@@ -12,16 +12,15 @@ $TypesValidate = new TypesValidate();
 $result = null;
 
 // Validação do campos de entrada
-$TypesValidate->setTypeId((int) filter_var($INPUT_POST->type_id, FILTER_SANITIZE_NUMBER_INT));
-$TypesValidate->setName((string) filter_var($INPUT_POST->name, FILTER_SANITIZE_SPECIAL_CHARS));
-$TypesValidate->setDescription((string) filter_var($INPUT_POST->description, FILTER_SANITIZE_EMAIL));
+$TypesValidate->setTypeId((int) $request->input('type_id'));
+$TypesValidate->setName($request->input('name'));
+$TypesValidate->setDescription($request->input('description'));
 
 // Verifico a existência de erros
-if (count($TypesValidate->getErrors()) > 0 ) {
+if (count($TypesValidate->getErrors()) > 0) {
 
     // Mensagem de erro
     throw new Exception(json_encode($TypesValidate->getErrors()));
-
 } else {
 
     // Efetua um novo cadastro ou atualiza o existente

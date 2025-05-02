@@ -12,15 +12,14 @@ $CategoriesValidate = new CategoriesValidate();
 $result = null;
 
 // Validação do campos de entrada
-$CategoriesValidate->setCategoryId((int) filter_var($INPUT_POST->category_id, FILTER_SANITIZE_NUMBER_INT));
-$CategoriesValidate->setName((string) filter_var($INPUT_POST->name, FILTER_SANITIZE_SPECIAL_CHARS));
+$CategoriesValidate->setCategoryId((int) $request->input('category_id'));
+$CategoriesValidate->setName($request->input('name'));
 
 // Verifico a existência de erros
-if (count($CategoriesValidate->getErrors()) > 0 ) {
+if (count($CategoriesValidate->getErrors()) > 0) {
 
     // Mensagem de erro
     throw new Exception(json_encode($CategoriesValidate->getErrors()));
-
 } else {
 
     // Efetua um novo cadastro ou atualiza o existente

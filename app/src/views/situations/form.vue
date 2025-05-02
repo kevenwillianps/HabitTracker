@@ -1,28 +1,32 @@
 <template>
-    <h1>
-        Situações/Formulário
-    </h1>
-    <div class="card">
-        <div class="card-body">
-            <form id="UsersForm" @submit.prevent="sendForm">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-floating mb-3">
-                            <input type="name" class="form-control" id="name" v-model="formData.name" placeholder="Nome">
-                            <label for="name">Nome</label>
+    <div class="card-body">
+        <h1>
+            Situações/Formulário
+        </h1>
+        <div class="card">
+            <div class="card-body">
+                <form id="UsersForm" @submit.prevent="sendForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-floating mb-3">
+                                <input type="name" class="form-control" id="name" v-model="formData.name"
+                                    placeholder="Nome">
+                                <label for="name">Nome</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="description" v-model="formData.description"
+                                    placeholder="description">
+                                <label for="description">Descrição</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary">Enviar</button>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="description" v-model="formData.description" placeholder="description">
-                            <label for="description">Descrição</label>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary">Enviar</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </template>

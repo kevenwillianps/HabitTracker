@@ -1,13 +1,15 @@
 <template>
 
-  <div>
+  <div class="card-body">
 
     <h1>
 
       Usuários/
 
-      <RouterLink to="/users/form" class="btn btn-primary">
+      <RouterLink to="/users/form" class="btn btn-primary btn-sm">
+
         Formulário
+
       </RouterLink>
 
     </h1>
@@ -58,7 +60,7 @@ onMounted(async () => {
   try {
 
     // Chamada à API para obter a lista de usuários
-    data.value = await apiRequest({ 'request': { 'path': 'action/users/users_list', 'method': 'post' }});
+    data.value = await apiRequest({ 'request': { 'path': 'action/users/users_list', 'method': 'post' } });
 
   } catch (err) {
 

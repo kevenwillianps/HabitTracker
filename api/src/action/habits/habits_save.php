@@ -12,17 +12,17 @@ $HabitsValidate = new HabitsValidate();
 $result = null;
 
 // Validação do campos de entrada
-$HabitsValidate->setHabitId((int) filter_var($INPUT_POST->habit_id, FILTER_SANITIZE_NUMBER_INT));
-$HabitsValidate->setSituationId((int) filter_var($INPUT_POST->situation_id, FILTER_SANITIZE_NUMBER_INT));
-$HabitsValidate->setGroupId((int) filter_var($INPUT_POST->group_id, FILTER_SANITIZE_NUMBER_INT));
-$HabitsValidate->setCategoryId((int) filter_var($INPUT_POST->category_id, FILTER_SANITIZE_NUMBER_INT));
-$HabitsValidate->setTypeId((int) filter_var($INPUT_POST->type_id, FILTER_SANITIZE_NUMBER_INT));
+$HabitsValidate->setHabitId($request->input('habit_id'));
+$HabitsValidate->setSituationId($request->input('situation_id'));
+$HabitsValidate->setGroupId($request->input('group_id'));
+$HabitsValidate->setCategoryId($request->input('category_id'));
+$HabitsValidate->setTypeId($request->input('type_id'));
 $HabitsValidate->setUserId(1);
-$HabitsValidate->setName(filter_var($INPUT_POST->name, FILTER_SANITIZE_SPECIAL_CHARS));
-$HabitsValidate->setDescription(filter_var($INPUT_POST->description, FILTER_SANITIZE_SPECIAL_CHARS));
-$HabitsValidate->setUrl(filter_var($INPUT_POST->url, FILTER_SANITIZE_SPECIAL_CHARS));
-$HabitsValidate->setStartsIn(filter_var($INPUT_POST->starts_in, FILTER_SANITIZE_SPECIAL_CHARS));
-$HabitsValidate->setEndsIn(filter_var($INPUT_POST->ends_in, FILTER_SANITIZE_SPECIAL_CHARS));
+$HabitsValidate->setName($request->input('name'));
+$HabitsValidate->setDescription($request->input('description'));
+$HabitsValidate->setUrl($request->input('url'));
+$HabitsValidate->setStartsIn($request->input('starts_in'));
+$HabitsValidate->setEndsIn($request->input('ends_in'));
 
 // Verifico a existência de erros
 if (count($HabitsValidate->getErrors()) > 0 ) {

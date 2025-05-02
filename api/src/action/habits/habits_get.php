@@ -12,7 +12,7 @@ $HabitsValidate = new HabitsValidate();
 $result = null;
 
 // Validação do campos de entrada
-$HabitsValidate->setHabitId((int) filter_var($INPUT_POST->habit_id, FILTER_SANITIZE_NUMBER_INT));
+$HabitsValidate->setHabitId($request->input('habit_id'));
 
 // Verifico a existência de erros
 if (count($HabitsValidate->getErrors()) > 0) {

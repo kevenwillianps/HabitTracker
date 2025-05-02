@@ -17,17 +17,17 @@ namespace src\controller\habits;
 class HabitsValidate
 {
 
-	private int $habitId;
-	private int $situationId;
-	private int $groupId;
-	private int $categoryId;
-	private int $typeId;
-	private int $userId;
-	private string $name;
-	private string $description;
-	private string $url;
-	private string $startsIn;
-	private string $endsIn;
+	private null|int $habitId = null;
+	private null|int $situationId = null;
+	private null|int $groupId = null;
+	private null|int $categoryId = null;
+	private null|int $typeId = null;
+	private null|int $userId = null;
+	private null|string $name = null;
+	private null|string $description = null;
+	private null|string $url = null;
+	private null|string $startsIn = null;
+	private null|string $endsIn = null;
 	private array $errors = [];
 
 	/** 

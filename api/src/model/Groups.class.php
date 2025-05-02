@@ -6,19 +6,20 @@ namespace src\model;
 use src\controller\groups\GroupsValidate;
 
 /**
-* Classe responsável para manipular os dados da tabela de `groups`
-*
-* @category 
-* @package src\model
-* @author Keven
-* @copyright 2025 Keven
-* @license MIT
-* @version 1.0.0
-* @link 
-*
-*/
+ * Classe responsável para manipular os dados da tabela de `groups`
+ *
+ * @category 
+ * @package src\model
+ * @author Keven
+ * @copyright 2025 Keven
+ * @license MIT
+ * @version 1.0.0
+ * @link 
+ *
+ */
 
-class Groups extends GroupsValidate {
+class Groups extends GroupsValidate
+{
 
 	// Declara as variáveis da classe 
 	private Mysql $mysql;
@@ -30,14 +31,13 @@ class Groups extends GroupsValidate {
 
 		// Cria o objeto de conexão com o banco de dados
 		$this->mysql = new Mysql();
-
 	}
 
 	/**
-	* Lista todos os registros existentes
-	*
-	* @return array
-	*/
+	 * Lista todos os registros existentes
+	 *
+	 * @return array
+	 */
 	public function all(): array|false
 	{
 
@@ -52,16 +52,15 @@ class Groups extends GroupsValidate {
 
 		// Retorno do resultado
 		return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
-
 	}
 
 	/**
-	* Busca um registro especifico pelo ID informado
-	*
-	* @param GroupsValidate $GroupsValidate
-	*
-	* @return object|null
-	*/
+	 * Busca um registro especifico pelo ID informado
+	 *
+	 * @param GroupsValidate $GroupsValidate
+	 *
+	 * @return object|null
+	 */
 	public function get(GroupsValidate $GroupsValidate): object|false
 	{
 
@@ -79,22 +78,23 @@ class Groups extends GroupsValidate {
 
 		// Retorno do resultado
 		return $this->stmt->fetchObject();
-
 	}
 
 	/**
-	* Persitência de dados. Caso o ID seja zero sera criado um novo, caso não, o registro será atualizado
-	*
-	* @param GroupsValidate $GroupsValidate
-	*
-	* @return boolean|string
-	*/
+	 * Persitência de dados. Caso o ID seja zero sera criado um novo, caso não, o registro será atualizado
+	 *
+	 * @param GroupsValidate $GroupsValidate
+	 *
+	 * @return boolean|string
+	 */
 	public function save(GroupsValidate $GroupsValidate): bool|string
 	{
 
 		// Consulta SQL
-		$this->sql = 'INSERT INTO `groups`(`group_id`, `name`)
-						VALUES(:groupId, :name);';
+		$this->sql = 'INSERT INTO `groups`(`group_id`, `name`, `preferences`)
+					  	VALUES(:groupId, :name, :preferences)
+					  ON DUPLICATE KEY UPDATE `name` = :name,
+					  						  `preferences` = :preferences;';
 
 		// Preparo o SQL para execução
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
@@ -102,22 +102,22 @@ class Groups extends GroupsValidate {
 		// Preencho os parâmetros do SQL
 		$this->stmt->bindParam(':groupId', $GroupsValidate->getGroupId());
 		$this->stmt->bindParam(':name', $GroupsValidate->getName());
+		$this->stmt->bindParam(':preferences', $GroupsValidate->getPreferences());
 
 		// Executa o SQL
 		$this->stmt->execute();
 
 		// Retorno do resultado
 		return $this->stmt->fetchObject();
-
 	}
 
 	/**
-	* Remove um registro em específico
-	*
-	* @param GroupsValidate $GroupsValidate
-	*
-	* @return boolean|string
-	*/
+	 * Remove um registro em específico
+	 *
+	 * @param GroupsValidate $GroupsValidate
+	 *
+	 * @return boolean|string
+	 */
 	public function delete(GroupsValidate $GroupsValidate): bool|string
 	{
 
@@ -135,8 +135,5 @@ class Groups extends GroupsValidate {
 
 		// Retorno do resultado
 		return $this->stmt->fetchObject();
-
 	}
-
-
 }

@@ -43,11 +43,14 @@ class Router extends RouterValidate
         $this->json = is_array($jsonDecoded) ? (object) $jsonDecoded : (object)[];
 
         // Unifica os dados em uma única fonte
-        $this->data = (object) array_merge(
+        $this->data = array_merge(
             $this->get,
             $this->post,
             (array) $this->json
         );
+
+        //Converto todas as chaves da array para minusculo
+        $this->data = (object) array_change_key_case($this->data, CASE_LOWER);
 
         // Chama a função de sanitização
         $this->sanitize();
@@ -103,7 +106,7 @@ class Router extends RouterValidate
         return 'Arquivo: ' . $data->getFile() . '; Linha: ' . $data->getLine() . '; Código: ' . $data->getCode() . '; Mensagem: ' . $data->getMessage();
     }
 
-    public static function process(RouterValidate $RouterValidate, $INPUT_POST): string
+    public static function process(RouterValidate $RouterValidate, $request): string
     {
 
         // Inicio a coleta de dados

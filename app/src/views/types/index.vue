@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <div class="card-body">
 
     <h1>
 

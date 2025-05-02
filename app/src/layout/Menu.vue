@@ -1,12 +1,17 @@
 <template>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm border-bottom">
+    <nav class="navbar navbar-expand-lg bg-white mb-3 border rounded">
 
         <div class="container">
 
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#">
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <img :src="menuIcon" width="30px" alt="">
+
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 
                 <span class="navbar-toggler-icon"></span>
 
@@ -86,10 +91,8 @@
 
 </template>
 
-<script>
+<script setup>
 
-export default{
-    
-}
+import menuIcon from '@/assets/images/note.png';
 
 </script>

@@ -12,16 +12,15 @@ $SituationsValidate = new SituationsValidate();
 $result = null;
 
 // Validação do campos de entrada
-$SituationsValidate->setSituationId((int) filter_var($INPUT_POST->situation_id, FILTER_SANITIZE_NUMBER_INT));
-$SituationsValidate->setName((string) filter_var($INPUT_POST->name, FILTER_SANITIZE_SPECIAL_CHARS));
-$SituationsValidate->setDescription((string) filter_var($INPUT_POST->description, FILTER_SANITIZE_EMAIL));
+$SituationsValidate->setSituationId((int) $request->input('situation_id'));
+$SituationsValidate->setName($request->input('name'));
+$SituationsValidate->setDescription($request->input('description'));
 
 // Verifico a existência de erros
-if (count($SituationsValidate->getErrors()) > 0 ) {
+if (count($SituationsValidate->getErrors()) > 0) {
 
     // Mensagem de erro
     throw new Exception(json_encode($SituationsValidate->getErrors()));
-
 } else {
 
     // Efetua um novo cadastro ou atualiza o existente

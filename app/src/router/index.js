@@ -55,7 +55,7 @@ const router = createRouter({
       component: () => import('../views/groups/index.vue'),
     },
     {
-      path:'/groups/form',
+      path:'/groups/form/:id',
       name:'groups.form',
       component: () => import('../views/groups/form.vue'),
     },

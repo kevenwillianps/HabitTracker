@@ -6,19 +6,20 @@ namespace src\model;
 use src\controller\habits\HabitsValidate;
 
 /**
-* Classe responsável para manipular os dados da tabela de habits
-*
-* @category 
-* @package src\model
-* @author Keven
-* @copyright 2025 Keven
-* @license MIT
-* @version 1.0.0
-* @link 
-*
-*/
+ * Classe responsável para manipular os dados da tabela de habits
+ *
+ * @category 
+ * @package src\model
+ * @author Keven
+ * @copyright 2025 Keven
+ * @license MIT
+ * @version 1.0.0
+ * @link 
+ *
+ */
 
-class Habits extends HabitsValidate {
+class Habits extends HabitsValidate
+{
 
 	// Declara as variáveis da classe 
 	private Mysql $mysql;
@@ -30,14 +31,13 @@ class Habits extends HabitsValidate {
 
 		// Cria o objeto de conexão com o banco de dados
 		$this->mysql = new Mysql();
-
 	}
 
 	/**
-	* Lista todos os registros existentes
-	*
-	* @return array
-	*/
+	 * Lista todos os registros existentes
+	 *
+	 * @return array
+	 */
 	public function all(): array|false
 	{
 
@@ -52,16 +52,41 @@ class Habits extends HabitsValidate {
 
 		// Retorno do resultado
 		return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
-
 	}
 
 	/**
-	* Busca um registro especifico pelo ID informado
-	*
-	* @param HabitsValidate $HabitsValidate
-	*
-	* @return object|null
-	*/
+	 * Lista todos os registros existentes
+	 * pelo tipo de grupo informado
+	 *
+	 * @return array
+	 */
+	public function allByGroup($HabitsValidate): array|false
+	{
+
+		// Consulta SQL
+		$this->sql = 'SELECT h.* FROM habits h
+					  WHERE h.group_id = :groupId';
+
+		// Preparo o SQL para execução
+		$this->stmt = $this->mysql->connect()->prepare($this->sql);
+
+		// Preencho os parâmetros do SQL
+		$this->stmt->bindParam(':groupId', $HabitsValidate->getGroupId());
+
+		// Executa o SQL
+		$this->stmt->execute();
+
+		// Retorno do resultado
+		return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
+	}
+
+	/**
+	 * Busca um registro especifico pelo ID informado
+	 *
+	 * @param HabitsValidate $HabitsValidate
+	 *
+	 * @return object|null
+	 */
 	public function get(HabitsValidate $HabitsValidate): object|false
 	{
 
@@ -79,16 +104,15 @@ class Habits extends HabitsValidate {
 
 		// Retorno do resultado
 		return $this->stmt->fetchObject();
-
 	}
 
 	/**
-	* Persitência de dados. Caso o ID seja zero sera criado um novo, caso não, o registro será atualizado
-	*
-	* @param HabitsValidate $HabitsValidate
-	*
-	* @return boolean|string
-	*/
+	 * Persitência de dados. Caso o ID seja zero sera criado um novo, caso não, o registro será atualizado
+	 *
+	 * @param HabitsValidate $HabitsValidate
+	 *
+	 * @return boolean|string
+	 */
 	public function save(HabitsValidate $HabitsValidate): bool|string
 	{
 
@@ -147,16 +171,43 @@ class Habits extends HabitsValidate {
 
 		// Retorno do resultado
 		return $this->stmt->fetchObject();
-
 	}
 
 	/**
-	* Remove um registro em específico
-	*
-	* @param HabitsValidate $HabitsValidate
-	*
-	* @return boolean|string
-	*/
+	 * Persitência de dados. Caso o ID seja zero sera criado um novo, caso não, o registro será atualizado
+	 *
+	 * @param HabitsValidate $HabitsValidate
+	 *
+	 * @return boolean|string
+	 */
+	public function saveSituation(HabitsValidate $HabitsValidate): bool|string
+	{
+
+		// Consulta SQL
+		$this->sql = 'UPDATE habits SET `situation_id` = :situationId
+					  WHERE habit_id = :habitId;';
+
+		// Preparo o SQL para execução
+		$this->stmt = $this->mysql->connect()->prepare($this->sql);
+
+		// Preencho os parâmetros do SQL
+		$this->stmt->bindParam(':habitId', $HabitsValidate->getHabitId());
+		$this->stmt->bindParam(':situationId', $HabitsValidate->getSituationId());
+
+		// Executa o SQL
+		$this->stmt->execute();
+
+		// Retorno do resultado
+		return $this->stmt->fetchObject();
+	}
+
+	/**
+	 * Remove um registro em específico
+	 *
+	 * @param HabitsValidate $HabitsValidate
+	 *
+	 * @return boolean|string
+	 */
 	public function delete(HabitsValidate $HabitsValidate): bool|string
 	{
 
@@ -174,8 +225,32 @@ class Habits extends HabitsValidate {
 
 		// Retorno do resultado
 		return $this->stmt->fetchObject();
-
 	}
 
+	/**
+	 * Persitência de dados. Caso o ID seja zero sera criado um novo, caso não, o registro será atualizado
+	 *
+	 * @param HabitsValidate $HabitsValidate
+	 *
+	 * @return boolean|string
+	 */
+	public function deleteSituation(HabitsValidate $HabitsValidate): bool|string
+	{
 
+		// Consulta SQL
+		$this->sql = 'UPDATE habits SET `situation_id` = null
+					  WHERE habit_id = :habitId;';
+
+		// Preparo o SQL para execução
+		$this->stmt = $this->mysql->connect()->prepare($this->sql);
+
+		// Preencho os parâmetros do SQL
+		$this->stmt->bindParam(':habitId', $HabitsValidate->getHabitId());
+
+		// Executa o SQL
+		$this->stmt->execute();
+
+		// Retorno do resultado
+		return $this->stmt->fetchObject();
+	}
 }

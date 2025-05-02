@@ -47,20 +47,14 @@ $result = null;
 
 try {
 
-    // Recebe dados json
-    $request = (object) json_decode(file_get_contents('php://input'), true);
-
     // Obtem as informações de requisição
-    $request2 = Router::getInstance();
+    $request = Router::getInstance();
 
     // Obtenho as configurações da aplicação
     $MainGetConfigResult = $Main->GetConfig();
- 
+
     // Obtenho os dados do usuário
     @$UserSessionResult = $_SESSION[$MainGetConfigResult->session->name];
-
-    //Converto todas as chaves da array para minusculo
-    $_POST = array_change_key_case($_POST, CASE_LOWER);
 
     //Dados do ‘log’
     $LogsValidate->setLogId(0);
@@ -72,7 +66,7 @@ try {
     $LogsValidate->setDateRegister(date('Y/m/d H:i:s'));
 
     // Parâmetros de entrada
-    $RouterValidate->setPath(filter_var(@$request->path, FILTER_SANITIZE_SPECIAL_CHARS));
+    $RouterValidate->setPath(filter_var(@$request->input('path'), FILTER_SANITIZE_SPECIAL_CHARS));
 
     // Verifico a existência de erros
     if (!empty($RouterValidate->getErrors())) {

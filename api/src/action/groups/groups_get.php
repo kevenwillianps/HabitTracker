@@ -13,8 +13,6 @@ $result = null;
 
 // Validação do campos de entrada
 $GroupsValidate->setGroupId((int) $request->input('group_id'));
-$GroupsValidate->setName($request->input('name'));
-$GroupsValidate->setPreferences($request->input('preferences'));
 
 // Verifico a existência de erros
 if (count($GroupsValidate->getErrors()) > 0) {
@@ -23,20 +21,23 @@ if (count($GroupsValidate->getErrors()) > 0) {
     throw new Exception(json_encode($GroupsValidate->getErrors()));
 } else {
 
-    // Efetua um novo cadastro ou atualiza o existente
-    if ($Groups->save($GroupsValidate)) {
+    // Busca o registro desejado
+    $GroupsGetResult = $Groups->get($GroupsValidate);
+
+    // Verifico a existência do registro
+    if ($GroupsGetResult->group_id > 0) {
 
         // Result
         $result = [
 
             'code' => 200,
-            'data' => 'Registro salvo com sucesso!',
+            'data' => $GroupsGetResult,
 
         ];
     } else {
 
         // Retorno da mensagem de erro
-        throw new InvalidArgumentException('Não foi possivel salvar o registro', 0);
+        throw new InvalidArgumentException('Não foi possivel localizar o registro', 0);
     }
 }
 

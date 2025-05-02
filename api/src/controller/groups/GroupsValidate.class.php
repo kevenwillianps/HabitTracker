@@ -19,6 +19,7 @@ class GroupsValidate
 
 	private int $groupId;
 	private string $name;
+	private string $preferences;
 	private array $errors = [];
 
 	/** 
@@ -63,6 +64,28 @@ class GroupsValidate
 	public function getName(): string
 	{
 		return $this->name;
+	}
+
+	/** 
+	 * Validação da informação "name" 
+	 * 
+	 * @param string name 
+	 * 
+	 * @return void 
+	 */
+	public function setPreferences(string $preferences): void
+	{
+		$this->preferences = $preferences;
+	}
+
+	/** 
+	 * Recuperação da informação "name" 
+	 * 
+	 * @return string 
+	 */
+	public function getPreferences(): string
+	{
+		return $this->preferences;
 	}
 
 	/** 

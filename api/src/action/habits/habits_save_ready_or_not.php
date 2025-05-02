@@ -21,14 +21,13 @@ if (count($HabitsValidate->getErrors()) > 0) {
     throw new Exception(json_encode($HabitsValidate->getErrors()));
 } else {
 
-    // Busca o registro desejado
+    // Busca o registro
     $HabitsGetResult = $Habits->get($HabitsValidate);
 
-    // Verifico a existência do registro
-    if ($HabitsGetResult->habit_id > 0) {
+    if ($HabitsGetResult->situation_id == 1) {
 
         // Efetua um novo cadastro ou atualiza o existente
-        if ($Habits->delete($HabitsValidate)) {
+        if ($Habits->deleteSituation($HabitsValidate)) {
 
             // Result
             $result = [
@@ -44,8 +43,24 @@ if (count($HabitsValidate->getErrors()) > 0) {
         }
     } else {
 
-        // Retorno da mensagem de erro
-        throw new InvalidArgumentException('Não foi possivel salvar o registro', 0);
+        // Define como concluído
+        $HabitsValidate->setSituationId(1);
+
+        // Efetua um novo cadastro ou atualiza o existente
+        if ($Habits->saveSituation($HabitsValidate)) {
+
+            // Result
+            $result = [
+
+                'code' => 200,
+                'data' => 'Registro salvo com sucesso!',
+
+            ];
+        } else {
+
+            // Retorno da mensagem de erro
+            throw new InvalidArgumentException('Não foi possivel salvar o registro', 0);
+        }
     }
 }
 
