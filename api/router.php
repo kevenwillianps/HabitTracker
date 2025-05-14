@@ -73,24 +73,10 @@ try {
 
         // Mensagem de erro
         throw new Exception($RouterValidate->getErrors());
-    } else {
-
-        // Verifico se o arquivo de ação existe
-        if (is_file($RouterValidate->getFullPath())) {
-
-            // Result
-            $result = [
-
-                'code' => 100,
-                'data' => Router::process($RouterValidate, $request)
-
-            ];
-        } else {
-
-            // Mensagem de erro
-            throw new Exception('Erro :: Não há arquivo para ação informada.');
-        }
     }
+
+    // Processa a Rota solicitada
+    $result = Router::process($RouterValidate, $request);
 
     // Define o delay de resposta
     sleep($MainGetConfigResult->delay);

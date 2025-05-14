@@ -4,6 +4,8 @@
 namespace src\controller\routers;
 
 // Importação de classes
+
+use Exception;
 use src\controller\main\Main;
 use src\controller\routers\RouterValidate;
 
@@ -46,10 +48,11 @@ class Router extends RouterValidate
         $this->data = array_merge(
             $this->get,
             $this->post,
+            $this->server,
             (array) $this->json
         );
 
-        //Converto todas as chaves da array para minusculo
+        // Converto todas as chaves da array para minusculo
         $this->data = (object) array_change_key_case($this->data, CASE_LOWER);
 
         // Chama a função de sanitização
@@ -106,8 +109,15 @@ class Router extends RouterValidate
         return 'Arquivo: ' . $data->getFile() . '; Linha: ' . $data->getLine() . '; Código: ' . $data->getCode() . '; Mensagem: ' . $data->getMessage();
     }
 
-    public static function process(RouterValidate $RouterValidate, $request): string
+    public static function process(RouterValidate $RouterValidate, $request): array
     {
+
+        // Verifica se o arquivo existe
+        if(!is_file($RouterValidate->getFullPath()))
+        {
+            // Mensagem de erro
+            throw new \Exception('Erro :: Não há arquivo para ação informada.');
+        }
 
         // Inicio a coleta de dados
         ob_start();
@@ -121,7 +131,26 @@ class Router extends RouterValidate
         // Removo o arquivo incluido
         ob_end_clean();
 
+        // Estrutura os dados de resposta
+        $response = [
+            'code' => 100,
+            'data' => $data
+        ];
+
         // retorno da informação
-        return $data;
+        return $response;
+
+    }
+
+    public static function checkVerb(string $expected, string $received)
+    {
+
+        if($expected !== $received)
+        {
+
+            throw new \Exception('Erro :: Verbo diferente do esperado');
+
+        }
+
     }
 }

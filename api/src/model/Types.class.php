@@ -105,10 +105,7 @@ class Types extends TypesValidate {
 		$this->stmt->bindParam(':description', $TypesValidate->getDescription());
 
 		// Executa o SQL
-		$this->stmt->execute();
-
-		// Retorno do resultado
-		return $this->stmt->fetchObject();
+		return $this->stmt->execute();
 
 	}
 

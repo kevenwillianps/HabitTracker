@@ -1,8 +1,12 @@
 <?php
 
 // Importação de classes
+use src\controller\routers\Router;
 use src\model\Types;
 use src\controller\types\TypesValidate;
+
+// Verifica se os verbos são iguais
+Router::checkVerb('POST', $request->input('request_method'));
 
 // Instâncimento de classes
 $Types = new Types();
