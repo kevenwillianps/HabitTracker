@@ -6,19 +6,20 @@ namespace src\model;
 use src\controller\types\TypesValidate;
 
 /**
-* Classe responsável para manipular os dados da tabela de types
-*
-* @category 
-* @package src\model
-* @author Keven
-* @copyright 2025 Keven
-* @license MIT
-* @version 1.0.0
-* @link 
-*
-*/
+ * Classe responsável para manipular os dados da tabela de types
+ *
+ * @category 
+ * @package src\model
+ * @author Keven
+ * @copyright 2025 Keven
+ * @license MIT
+ * @version 1.0.0
+ * @link 
+ *
+ */
 
-class Types extends TypesValidate {
+class Types extends TypesValidate
+{
 
 	// Declara as variáveis da classe 
 	private Mysql $mysql;
@@ -30,38 +31,39 @@ class Types extends TypesValidate {
 
 		// Cria o objeto de conexão com o banco de dados
 		$this->mysql = new Mysql();
-
 	}
 
 	/**
-	* Lista todos os registros existentes
-	*
-	* @return array
-	*/
-	public function all(): array|false
+	 * Lista todos os registros existentes
+	 *
+	 * @return array
+	 */
+	public static function all(): array|false
 	{
 
+		// Cria o objeto de conexão com o banco de dados
+		$mysql = new Mysql();
+
 		// Consulta SQL
-		$this->sql = 'SELECT t.* FROM types t';
+		$sql = 'SELECT t.* FROM types t';
 
 		// Preparo o SQL para execução
-		$this->stmt = $this->mysql->connect()->prepare($this->sql);
+		$stmt = $mysql->connect()->prepare($sql);
 
 		// Executa o SQL
-		$this->stmt->execute();
+		$stmt->execute();
 
 		// Retorno do resultado
-		return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
-
+		return $stmt->fetchAll(\PDO::FETCH_OBJ);
 	}
 
 	/**
-	* Busca um registro especifico pelo ID informado
-	*
-	* @param TypesValidate $TypesValidate
-	*
-	* @return object|null
-	*/
+	 * Busca um registro especifico pelo ID informado
+	 *
+	 * @param TypesValidate $TypesValidate
+	 *
+	 * @return object|null
+	 */
 	public function get(TypesValidate $TypesValidate): object|false
 	{
 
@@ -72,23 +74,22 @@ class Types extends TypesValidate {
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':typeId', $TypesValidate->getTypeId());
+		$this->stmt->bindValue(':typeId', $TypesValidate->getTypeId());
 
 		// Executa o SQL
 		$this->stmt->execute();
 
 		// Retorno do resultado
 		return $this->stmt->fetchObject();
-
 	}
 
 	/**
-	* Persitência de dados. Caso o ID seja zero sera criado um novo, caso não, o registro será atualizado
-	*
-	* @param TypesValidate $TypesValidate
-	*
-	* @return boolean|string
-	*/
+	 * Persitência de dados. Caso o ID seja zero sera criado um novo, caso não, o registro será atualizado
+	 *
+	 * @param TypesValidate $TypesValidate
+	 *
+	 * @return boolean|string
+	 */
 	public function save(TypesValidate $TypesValidate): bool|string
 	{
 
@@ -100,22 +101,21 @@ class Types extends TypesValidate {
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':typeId', $TypesValidate->getTypeId());
-		$this->stmt->bindParam(':name', $TypesValidate->getName());
-		$this->stmt->bindParam(':description', $TypesValidate->getDescription());
+		$this->stmt->bindValue(':typeId', $TypesValidate->getTypeId());
+		$this->stmt->bindValue(':name', $TypesValidate->getName());
+		$this->stmt->bindValue(':description', $TypesValidate->getDescription());
 
 		// Executa o SQL
 		return $this->stmt->execute();
-
 	}
 
 	/**
-	* Remove um registro em específico
-	*
-	* @param TypesValidate $TypesValidate
-	*
-	* @return boolean|string
-	*/
+	 * Remove um registro em específico
+	 *
+	 * @param TypesValidate $TypesValidate
+	 *
+	 * @return boolean|string
+	 */
 	public function delete(TypesValidate $TypesValidate): bool|string
 	{
 
@@ -126,15 +126,12 @@ class Types extends TypesValidate {
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':typeId', $TypesValidate->getTypeId());
+		$this->stmt->bindValue(':typeId', $TypesValidate->getTypeId());
 
 		// Executa o SQL
 		$this->stmt->execute();
 
 		// Retorno do resultado
 		return $this->stmt->fetchObject();
-
 	}
-
-
 }

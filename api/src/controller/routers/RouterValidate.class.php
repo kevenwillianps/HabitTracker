@@ -23,7 +23,7 @@ class RouterValidate
     // Parâmetros da classe
     private null|object $Main = null;
     private null|array $errors = array();
-    private null|string $path = null;
+    private null|array $path = null;
 
     /**
      * Contrutor da classe
@@ -33,7 +33,6 @@ class RouterValidate
 
         // Instâncimento de classes
         $this->Main = new Main();
-
     }
 
     /**
@@ -47,16 +46,7 @@ class RouterValidate
     {
 
         // Trata a informação
-        $this->path = strtolower($this->Main->antiInjection($path));
-
-        // Valida a informação
-        if (empty($this->path)) {
-
-            /** Adiciono um elemento a array */
-            array_push($this->errors, 'O endereço da requisição deve ser informado');
-
-        }
-
+        $this->path = explode('/', $path);
     }
 
     /**
@@ -69,7 +59,6 @@ class RouterValidate
 
         // Retorno da informação
         return (string)$this->path;
-
     }
 
     /**
@@ -81,8 +70,7 @@ class RouterValidate
     {
 
         // Retorno da informação
-        return './src/' . (string)$this->path . '.php';
-
+        return 'src\\' . $this->path[0] . '\\' . $this->path[1] . '\\' . str_replace('.php', '', $this->path[2]);
     }
 
     /**
@@ -96,5 +84,4 @@ class RouterValidate
         // Formata os erros para uma lista
         return Main::HandlingErrors($this->errors);
     }
-
 }

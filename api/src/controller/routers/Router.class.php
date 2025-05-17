@@ -57,7 +57,6 @@ class Router extends RouterValidate
 
         // Chama a função de sanitização
         $this->sanitize();
-
     }
 
     public static function getInstance(): Router
@@ -83,9 +82,7 @@ class Router extends RouterValidate
 
             // Limpa os dados
             $this->data->$key = Main::antiInjection($value);
-
         }
-
     }
 
     // Retorna um campo (busca em JSON, POST e GET)
@@ -101,7 +98,7 @@ class Router extends RouterValidate
         // Reotrna a informação consulta
         return $this->data;
     }
- 
+
     public static function formatException($data): string
     {
 
@@ -113,44 +110,32 @@ class Router extends RouterValidate
     {
 
         // Verifica se o arquivo existe
-        if(!is_file($RouterValidate->getFullPath()))
-        {
+        if (!class_exists($RouterValidate->getFullPath())) {
+
             // Mensagem de erro
             throw new \Exception('Erro :: Não há arquivo para ação informada.');
+            
         }
 
-        // Inicio a coleta de dados
-        ob_start();
-
-        // Inclusão do arquivo desejado
-        @include_once $RouterValidate->getFullPath();
-
-        // Prego a estrutura do arquivo
-        $data = ob_get_contents();
-
-        // Removo o arquivo incluido
-        ob_end_clean();
+        // Obtenho o caminho absoluto da classe
+        $class = $RouterValidate->getFullPath();
 
         // Estrutura os dados de resposta
         $response = [
             'code' => 100,
-            'data' => $data
+            'data' => $class::execute(@$request)
         ];
 
         // retorno da informação
         return $response;
-
     }
 
     public static function checkVerb(string $expected, string $received)
     {
 
-        if($expected !== $received)
-        {
+        if ($expected !== $received) {
 
             throw new \Exception('Erro :: Verbo diferente do esperado');
-
         }
-
     }
 }

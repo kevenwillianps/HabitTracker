@@ -71,7 +71,7 @@ class Habits extends HabitsValidate
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':groupId', $HabitsValidate->getGroupId());
+		$this->stmt->bindValue(':groupId', $HabitsValidate->getGroupId());
 
 		// Executa o SQL
 		$this->stmt->execute();
@@ -97,7 +97,7 @@ class Habits extends HabitsValidate
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':habitId', $HabitsValidate->getHabitId());
+		$this->stmt->bindValue(':habitId', $HabitsValidate->getHabitId());
 
 		// Executa o SQL
 		$this->stmt->execute();
@@ -154,17 +154,17 @@ class Habits extends HabitsValidate
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':habitId', $HabitsValidate->getHabitId());
-		$this->stmt->bindParam(':situationId', $HabitsValidate->getSituationId());
-		$this->stmt->bindParam(':groupId', $HabitsValidate->getGroupId());
-		$this->stmt->bindParam(':categoryId', $HabitsValidate->getCategoryId());
-		$this->stmt->bindParam(':typeId', $HabitsValidate->getTypeId());
-		$this->stmt->bindParam(':userId', $HabitsValidate->getUserId());
-		$this->stmt->bindParam(':name', $HabitsValidate->getName());
-		$this->stmt->bindParam(':description', $HabitsValidate->getDescription());
-		$this->stmt->bindParam(':url', $HabitsValidate->getUrl());
-		$this->stmt->bindParam(':startsIn', $HabitsValidate->getStartsIn());
-		$this->stmt->bindParam(':endsIn', $HabitsValidate->getEndsIn());
+		$this->stmt->bindValue(':habitId', $HabitsValidate->getHabitId());
+		$this->stmt->bindValue(':situationId', $HabitsValidate->getSituationId());
+		$this->stmt->bindValue(':groupId', $HabitsValidate->getGroupId());
+		$this->stmt->bindValue(':categoryId', $HabitsValidate->getCategoryId());
+		$this->stmt->bindValue(':typeId', $HabitsValidate->getTypeId());
+		$this->stmt->bindValue(':userId', $HabitsValidate->getUserId());
+		$this->stmt->bindValue(':name', $HabitsValidate->getName());
+		$this->stmt->bindValue(':description', $HabitsValidate->getDescription());
+		$this->stmt->bindValue(':url', $HabitsValidate->getUrl());
+		$this->stmt->bindValue(':startsIn', $HabitsValidate->getStartsIn());
+		$this->stmt->bindValue(':endsIn', $HabitsValidate->getEndsIn());
 
 		// Executa o SQL
 		$this->stmt->execute();
@@ -191,14 +191,12 @@ class Habits extends HabitsValidate
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':habitId', $HabitsValidate->getHabitId());
-		$this->stmt->bindParam(':situationId', $HabitsValidate->getSituationId());
+		$this->stmt->bindValue(':habitId', $HabitsValidate->getHabitId());
+		$this->stmt->bindValue(':situationId', $HabitsValidate->getSituationId());
 
 		// Executa o SQL
-		$this->stmt->execute();
+		return $this->stmt->execute();
 
-		// Retorno do resultado
-		return $this->stmt->fetchObject();
 	}
 
 	/**
@@ -218,13 +216,10 @@ class Habits extends HabitsValidate
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':habitId', $HabitsValidate->getHabitId());
+		$this->stmt->bindValue(':habitId', $HabitsValidate->getHabitId());
 
 		// Executa o SQL
-		$this->stmt->execute();
-
-		// Retorno do resultado
-		return $this->stmt->fetchObject();
+		return $this->stmt->execute();
 	}
 
 	/**
@@ -245,12 +240,9 @@ class Habits extends HabitsValidate
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':habitId', $HabitsValidate->getHabitId());
+		$this->stmt->bindValue(':habitId', $HabitsValidate->getHabitId());
 
 		// Executa o SQL
-		$this->stmt->execute();
-
-		// Retorno do resultado
-		return $this->stmt->fetchObject();
+		return $this->stmt->execute();
 	}
 }

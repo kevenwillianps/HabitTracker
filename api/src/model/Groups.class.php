@@ -71,7 +71,7 @@ class Groups extends GroupsValidate
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':groupId', $GroupsValidate->getGroupId());
+		$this->stmt->bindValue(':groupId', $GroupsValidate->getGroupId());
 
 		// Executa o SQL
 		$this->stmt->execute();
@@ -100,15 +100,12 @@ class Groups extends GroupsValidate
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':groupId', $GroupsValidate->getGroupId());
-		$this->stmt->bindParam(':name', $GroupsValidate->getName());
-		$this->stmt->bindParam(':preferences', $GroupsValidate->getPreferences());
+		$this->stmt->bindValue(':groupId', $GroupsValidate->getGroupId());
+		$this->stmt->bindValue(':name', $GroupsValidate->getName());
+		$this->stmt->bindValue(':preferences', $GroupsValidate->getPreferences());
 
 		// Executa o SQL
-		$this->stmt->execute();
-
-		// Retorno do resultado
-		return $this->stmt->fetchObject();
+		return $this->stmt->execute();
 	}
 
 	/**
@@ -128,7 +125,7 @@ class Groups extends GroupsValidate
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':groupId', $GroupsValidate->getGroupId());
+		$this->stmt->bindValue(':groupId', $GroupsValidate->getGroupId());
 
 		// Executa o SQL
 		$this->stmt->execute();

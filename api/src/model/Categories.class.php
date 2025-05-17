@@ -100,14 +100,11 @@ class Categories extends CategoriesValidate {
 		$this->stmt = $this->mysql->connect()->prepare($this->sql);
 
 		// Preencho os parâmetros do SQL
-		$this->stmt->bindParam(':categoryId', $CategoriesValidate->getCategoryId());
-		$this->stmt->bindParam(':name', $CategoriesValidate->getName());
+		$this->stmt->bindValue(':categoryId', $CategoriesValidate->getCategoryId());
+		$this->stmt->bindValue(':name', $CategoriesValidate->getName());
 
 		// Executa o SQL
-		$this->stmt->execute();
-
-		// Retorno do resultado
-		return $this->stmt->fetchObject();
+		return $this->stmt->execute();
 
 	}
 
